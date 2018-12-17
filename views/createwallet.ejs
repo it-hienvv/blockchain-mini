@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Login V2</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="shortcut icon" href="images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style-mod.css" />
+    <link rel="stylesheet" href="css/custom-head-foot-scroll-blue.min.css" />
+    <link rel="stylesheet" href="line-icons/line-icons.css" />
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		function createWallet() {
+			axios({
+				method: 'get',
+				url: 'http://localhost:6969/create-new-wallet'
+			}).then(res => {
+				console.log('new wallet', res.data);
+				if (res.data.privKey && res.data.pubKey && res.data.vinAddress) {
+					localStorage.setItem("privKey", res.data.privKey);
+					localStorage.setItem("pubKey", res.data.pubKey);
+					localStorage.setItem("vinAddress", res.data.vinAddress);
+					window.location.href = "/";
+				}
+			}).catch(err => console.log(err));
+		}
+		window.onload = function (e) {
+			let privKey = localStorage.getItem("privKey");
+			let pubKey = localStorage.getItem("pubKey");
+			let vinAddress = localStorage.getItem("vinAddress");
+			if (privKey && vinAddress && pubKey) {
+				window.location.href = "/transaction";
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', function () {
+			setTimeout(function () {
+				document.getElementById("loading").style.display = "none";
+				document.getElementById("content").style.display = "block";
+			}, 1000);
+		}, false);
+	</script>
+</head>
+
+<body>
+	<svg style="position: fixed; top: 31%; left: 42%;" id="loading" class="lds-microsoft" width="200px" height="200px"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"
+	 preserveAspectRatio="xMidYMid" style="background: none;">
+		<g transform="rotate(0)">
+			<circle cx="73.801" cy="68.263" fill="#bd4030" r="3" transform="rotate(94.9901 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="0s"></animateTransform>
+			</circle>
+			<circle cx="68.263" cy="73.801" fill="#e0b83e" r="3" transform="rotate(120.754 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.062s"></animateTransform>
+			</circle>
+			<circle cx="61.481" cy="77.716" fill="#7f9626" r="3" transform="rotate(149.384 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.125s"></animateTransform>
+			</circle>
+			<circle cx="53.916" cy="79.743" fill="#76be9f" r="3" transform="rotate(179.174 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.187s"></animateTransform>
+			</circle>
+			<circle cx="46.084" cy="79.743" fill="#9bcfde" r="3" transform="rotate(208.932 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.25s"></animateTransform>
+			</circle>
+			<circle cx="38.519" cy="77.716" fill="#599f8c" r="3" transform="rotate(237.232 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.312s"></animateTransform>
+			</circle>
+			<circle cx="31.737" cy="73.801" fill="#36173b" r="3" transform="rotate(263.598 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.375s"></animateTransform>
+			</circle>
+			<circle cx="26.199" cy="68.263" fill="#563e58" r="3" transform="rotate(286.445 50 50)">
+				<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;360 50 50" times="0;1"
+				 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s" begin="-0.437s"></animateTransform>
+			</circle>
+			<animateTransform attributeName="transform" type="rotate" calcMode="spline" values="0 50 50;0 50 50" times="0;1"
+			 keySplines="0.5 0 0.5 1" repeatCount="indefinite" dur="1.5s"></animateTransform>
+		</g>
+	</svg>
+	<div class="wrapper">
+		<div class="header">
+				<div class="container">
+					<a class="logo" href="/" target="_parent" title="Home Page">
+						<img id="logo-header" width="100px" src="images/icons/EtherscanLogo-transparent-b-small-2.jpg" alt="Logo"
+							style="margin-top: 16px; margin-bottom: 14px; margin-left: -6px">
+					</a>
+					<div class="topbar hidden-xs hidden-sm ">
+						<form action="/search" method="GET" autocomplete="off" spellcheck="false">
+							<ul class="loginbar pull-right">
+								<li><a href="/login" title="Click To Login"> LOGIN</a> <i class="fa  fa-male"></i>
+									&nbsp;&nbsp;</li>
+								<li>
+									<div style="display: inline;">
+										<input id="txtSearchInput" type="text" class="form-control-custom" placeholder="Search by Address / Txhash / Block / Token / Ens"
+											name="q" maxlength="66" style="width: 330px; height: 31px; display: inline;">
+										<span class="" style="display: inline">
+											<button class="btn-u" type="submit" style="padding: 3px 6px 3px 6px; height: 32px; width: 41px; margin-left: -5px; margin-top: 3px;">GO</button>
+										</span>
+									</div>
+								</li>
+								<!-- <li>
+									<span style="float: right; margin-left: -28px; margin-top: 9px">
+										<ul class="loginbar">
+											<li>
+												<i class="fa fa-globe"></i>
+												<a>Language </a>
+												<ul class="languages hoverSelectorBlock">
+													<li class='active'><a href='#'>english <i class='fa fa-check'></i></a></li>
+													<li> <a href='/?lang=zh-cn' title='simplified chinese'> <b>中文</b> </a></li>
+												</ul>
+											</li>
+										</ul>
+									</span>
+								</li> -->
+							</ul>
+						</form>
+		
+					</div>
+		
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="sr-only">Toggle Navigation</span>
+						<span class="fa fa-bars"></span>
+					</button>
+		
+				</div>
+		
+				<div class="collapse navbar-collapse mega-menu navbar-responsive-collapse">
+					<div class="container">
+						<ul class="nav navbar-nav">
+		
+							<li id="LI_default">
+								<a href="/">Home</a>
+							</li>
+							<!-- <li id="LI_blockchain" class="dropdown">
+								<a href="#" class="" data-toggle="dropdown">
+									&nbsp;Blockchain
+								</a>
+								<ul class="dropdown-menu">
+									
+								</ul>
+							</li> -->
+							<li id="LI12"><a href="/txs"><i class="fa fa-list-alt"></i>&nbsp;View Txns</a></li>
+							<li id="LI16" class="active"><a href="/wallet"><i class="fa fa-tasks "></i>&nbsp;Wallet</a></li>
+							<li id="LI16"><a href="/transaction"><i class="fa fa-tasks "></i>&nbsp;Send</a></li>
+							
+						</ul>
+					</div>
+				</div>
+		</div>
+		<div class="" id="content" style="display: none;">
+			<div class="" style="position: absolute; left: 36%; top: 10%;">
+				<div class="wrap-login100">
+	
+					<span class="login100-form-title p-b-26">
+						Welcome
+					</span>
+					<span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-font"></i>
+					</span>
+	
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" onclick="createWallet();">
+								Create wallet
+							</button>
+						</div>
+					</div>
+	
+					<div class="text-center p-t-115">
+						<span class="txt1">
+							Vinsoft mini blockchain
+						</span>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+
+	<div id="dropDownSelect1"></div>
+
+	<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+	<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+
+</html>

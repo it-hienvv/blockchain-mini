@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>
+        Vin Blockchain Explorer
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Description" content="Etherscan allows you to explore and search the Ethereum blockchain for transactions, addresses, tokens, prices and other activities taking place on Ethereum (ETH)" />
+    <meta name="author" content="etherscan.io" />
+    <meta name="keywords" content="ethereum, explorer, ether, search, blockchain, crypto, currency" />
+    <meta name="format-detection" content="telephone=no" />
+    <script src="js/1.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="scrollbar/src/perfect-scrollbar.css">
+    <script type="text/javascript">
+        $(function () {
+            $('#containerchart').highcharts({
+                chart: {
+                    type: 'line',
+                    spacingBottom: 0,
+                    spacingTop: 0,
+                    spacingLeft: 0,
+                    spacingRight: 0,
+                },
+                legend: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: '14 day Ethereum Transaction History',
+                    style: {
+                        fontSize: '13px'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: ''
+                    },
+                    categories: [
+                        '9/28', '9/29', '9/30', '10/1', '10/2', '10/3', '10/4', '10/5', '10/6',
+                        '10/7', '10/8', '10/9', '10/10', '10/11',
+                    ]
+                },
+                yAxis: {
+                    labels: {
+                        enabled: true
+                    },
+                    title: {
+                        text: null
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<span style="font-size:10px">' + this.point.friendlydate +
+                            '</span><br><table><tr><td style="padding:0">' +
+                            '<span style="color:' + this.series.color +
+                            '">Transactions: </a></span><b>' + this.point.y + '</b><br>'
+                        '</td></tr></table>';
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        animation: {
+                            duration: 0
+                        },
+                        point: {
+                            events: {
+                                select: function (e) {
+                                    location.href = 'txs?dt=' + this.options.dt;
+                                }
+                            }
+                        }
+                    },
+                    column: {
+                        pointPadding: 0.1,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Transactions',
+                    data: [{
+                        y: 500407,
+                        dt: '1538092800',
+                        friendlydate: 'Fri 28, Sep 2018',
+                    }, {
+                        y: 434315,
+                        dt: '1538179200',
+                        friendlydate: 'Sat 29, Sep 2018',
+                    }, {
+                        y: 479351,
+                        dt: '1538265600',
+                        friendlydate: 'Sun 30, Sep 2018',
+                    }, {
+                        y: 476308,
+                        dt: '1538352000',
+                        friendlydate: 'Mon 1, Oct 2018',
+                    }, {
+                        y: 490262,
+                        dt: '1538438400',
+                        friendlydate: 'Tue 2, Oct 2018',
+                    }, {
+                        y: 559006,
+                        dt: '1538524800',
+                        friendlydate: 'Wed 3, Oct 2018',
+                    }, {
+                        y: 559181,
+                        dt: '1538611200',
+                        friendlydate: 'Thu 4, Oct 2018',
+                    }, {
+                        y: 595361,
+                        dt: '1538697600',
+                        friendlydate: 'Fri 5, Oct 2018',
+                    }, {
+                        y: 596865,
+                        dt: '1538784000',
+                        friendlydate: 'Sat 6, Oct 2018',
+                    }, {
+                        y: 497767,
+                        dt: '1538870400',
+                        friendlydate: 'Sun 7, Oct 2018',
+                    }, {
+                        y: 542842,
+                        dt: '1538956800',
+                        friendlydate: 'Mon 8, Oct 2018',
+                    }, {
+                        y: 537028,
+                        dt: '1539043200',
+                        friendlydate: 'Tue 9, Oct 2018',
+                    }, {
+                        y: 516772,
+                        dt: '1539129600',
+                        friendlydate: 'Wed 10, Oct 2018',
+                    }, {
+                        y: 570525,
+                        dt: '1539216000',
+                        friendlydate: 'Thu 11, Oct 2018',
+                    }, ],
+                    allowPointSelect: true,
+                }, ]
+            });
+        });
+    </script>
+    <style>
+        @media (max-width: 480px) {
+            .hidden-su-xs {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 481px) {
+            .visible-su-xs {
+                display: none;
+            }
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 26px;
+            height: 14px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 1px;
+            bottom: 1px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #33DDFF;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(14px);
+            -ms-transform: translateX(14px);
+            transform: translateX(14px);
+        }
+    </style>
+    <style type="text/css">
+        #div-advert {
+            margin-top: 1px;
+            margin-bottom: -39px;
+            min-height: 40px;
+        }
+
+        @media (max-width: 667px) {
+            #div-advert {
+                min-height: 62px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #div-advert {
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+    <link rel="shortcut icon" href="images/icons/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600&amp;subset=cyrillic,latin" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style-mod.css" />
+    <link rel="stylesheet" href="css/custom-head-foot-scroll-blue.min.css" />
+    <link rel="stylesheet" href="line-icons/line-icons.css" />
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <script>
+        window.WebSocket = window.WebSocket || window.MozWebSocket;
+
+        var MessageType = {
+            QUERY_LATEST: 0,
+            QUERY_ALL: 1,
+            RESPONSE_BLOCKCHAIN: 2,
+            QUERY_NEIGHBORHOOD: 3,
+            RESPONSE_NEIGHBORHOOD: 4,
+            NEW_TRANSACTION: 5,
+            RESPONSE_CLIENT: 6,
+        };
+
+        var connection = new WebSocket('ws://localhost:8080');
+        var blockData;
+        var transaction;
+        connection.onopen = function () {
+        // connection is opened and ready to use
+            blockData = document.getElementById("scrollbar2");
+            transaction = document.getElementById("scrollbar");
+        };
+
+        connection.onerror = function (error) {
+        // an error occurred when sending/receiving data
+            console.log("can't connect to server", error);
+        };
+
+        connection.onmessage = function (msg) {
+        // try to decode json (I assume that each message
+        // from server is json)
+            
+            try {
+                var message = JSON.parse(msg.data);
+                switch(blockData && transaction && message.type) {
+                    case MessageType.RESPONSE_CLIENT:
+                        let htmlChain = "";
+                        let htmlTxs = "";
+                        let blocks = message.data;
+                        blocks.forEach(block => {
+                            htmlChain += `<div class="profile-event">
+                                        <div class="date-formats" style='width: 135px; height: 65px; margin-top:2px'><span><a
+                                                    href='/block/${block.header.number}'>
+                                                    <font size="2" color='white'>Block ${block.header.number}</font>
+                                                </a></span><small>
+                                                <div data-countdown='41000' id=${'countdown' + block.header.number}></div>
+                                            </small></div>
+                                        <div class="overflow-h">Mined By <a href='/address/0x829bd824b016326a401d083b33d092293333a830'
+                                                class='address-tag'>${block.header.coinbase}</a></p>
+                                            <p><a href="/txs?block=${block.header.number}" title="Transactions in This Block"><b>${block.data.length}
+                                                        txns</b></a> in 16 secs</p>
+                                            <p> Block Reward 3<b>.</b>0793 Ether</p>
+                                        </div>
+                                    </div>`;
+                            block.data.forEach(transaction => {
+                                htmlTxs += `<div class="profile-post color-one"><span class="profile-post-numb"><i class="fa fa-hdd-o"></i></span>
+                                                <div class="profile-post-in">
+                                                    <h3 class="heading-xs">TX# <a href="/tx/${transaction.hash}"
+                                                            class='hash-tag-frontpage' title="Transactions Hash">
+                                                            <font color='#3498db'>${transaction.hash}</font>
+                                                        </a><span class="pull-right" style="font-size: small">
+                                                            <div data-countdown='41000'></div>&nbsp;
+                                                        </span></h3>
+                                                    <p>From <a href='/address/${transaction.from}'
+                                                            class='address-tag'>${transaction.from}</a>
+                                                        To <a href='/address/${transaction.to}'
+                                                            class='address-tag'>${transaction.to}</a></p>
+                                                    <p>Amount ${transaction.value}> Ether</p>
+                                                </div>
+                                            </div>`;
+                            });
+                        });
+                        blockData.innerHTML = htmlChain;
+                        transaction.innerHTML = htmlTxs;
+                        break;
+                }
+            } catch (e) {
+                console.log('This doesn\'t look like a valid JSON: ',
+                msg.data);
+                return;
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <div class="container">
+                <a class="logo" href="/" target="_parent" title="Home Page">
+                    <img id="logo-header" width="100px" src="images/icons/EtherscanLogo-transparent-b-small-2.jpg" alt="Logo"
+                        style="margin-top: 16px; margin-bottom: 14px; margin-left: -6px">
+                </a>
+                <div class="topbar hidden-xs hidden-sm ">
+                    <form action="/search" method="GET" autocomplete="off" spellcheck="false">
+                        <ul class="loginbar pull-right">
+                            <li><a href="/login" title="Click To Login"> LOGIN</a> <i class="fa  fa-male"></i>
+                                &nbsp;&nbsp;</li>
+                            <li>
+                                <div style="display: inline;">
+                                    <input id="txtSearchInput" type="text" class="form-control-custom" placeholder="Search by Address / Txhash / Block / Token / Ens"
+                                        name="q" maxlength="66" style="width: 330px; height: 31px;">
+                                    <span class="" style="display: inline">
+                                        <button class="btn-u" type="submit" style="padding: 3px 6px 3px 6px; height: 32px; width: 41px; margin-left: -5px; margin-top: 3px;">GO</button>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <span style="float: right; margin-left: -28px; margin-top: 9px">
+                                    <ul class="loginbar">
+                                        <li>
+                                            <i class="fa fa-globe"></i>
+                                            <a>Language </a>
+                                            <ul class="languages hoverSelectorBlock">
+                                                <li class='active'><a href='#'>english <i class='fa fa-check'></i></a></li>
+                                                <li> <a href='/?lang=zh-cn' title='simplified chinese'> <b>中文</b> </a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </span>
+                            </li>
+                        </ul>
+                    </form>
+
+                </div>
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="fa fa-bars"></span>
+                </button>
+
+            </div>
+
+            <div class="collapse navbar-collapse mega-menu navbar-responsive-collapse">
+                <div class="container">
+                    <ul class="nav navbar-nav">
+
+                        <li id="LI_default" class="active">
+                            <a href="/">Home</a>
+                        </li>
+                        <!-- <li id="LI_blockchain" class="dropdown">
+                            <a href="#" class="" data-toggle="dropdown">
+                                &nbsp;Blockchain
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                            </ul>
+                        </li> -->
+                        <li id="LI12"><a href="/txs"><i class="fa fa-list-alt"></i>&nbsp;View Txns</a></li>
+                        <li id="LI16"><a href="/wallet"><i class="fa fa-tasks "></i>&nbsp;Wallet</a></li>
+                        <li id="LI16"><a href="/transaction"><i class="fa fa-tasks "></i>&nbsp;Send</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container left hidden-lg hidden-md" id="divmobilesearch" style="margin-top: 5px; margin-bottom: -18px; padding-right: 20px; padding-left: 20px;">
+            <form action="/search" method="GET">
+                <input id="txtSearchInputMobile" type="text" placeholder="Search For Account, TxHash Or Data" class="form-control"
+                    style="text-align: center;" name="q" maxlength="66" title="Address, Contract, Txn Hash or Data" />
+            </form>
+            <br /><br />
+        </div>
+
+
+        <div class="profile container " style="margin-top: 0px">
+            <div class="row">
+                <div>
+                    <div class="profile-body">
+                        <div align="left" id="divadvert" style="margin-bottom: 11px; margin-top: -10px;">
+                            <span id="ContentPlaceHolder1_litIBannerAdd"></span>
+                        </div>
+                        <div class="row margin-bottom-40">
+                            <div class="col-sm-6 sm-margin-bottom-20">
+                                <div class="panel panel-profile no-bg">
+                                    <div class="panel-heading overflow-h">
+                                        <h2 class="panel-title heading-sm pull-left"><i class="fa fa-cubes" id="facube"></i>Blocks</h2>
+                                        <a href="/blocks" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-xs pull-right">View
+                                            All</a>
+                                    </div>
+                                    <div id="scrollbar2" class="panel-body no-padding mCustomScrollbar" data-mcs-theme="minimal-dark"
+                                        style="height: 580px">
+                                        <%
+                                            blocks.forEach(block => {
+                                        %>
+                                            <div class="profile-event">
+                                                <div class="date-formats" style='width: 135px; height: 65px; margin-top:2px'><span><a
+                                                            href='/block/<%=block.header.number%>'>
+                                                            <font size="2" color='white'>Block <%=block.header.number%></font>
+                                                        </a></span><small>
+                                                        <div id="countdown<%=block.header.number%>" data-countdown="<%=block.header.timestamp%>"></div>
+                                                    </small></div>
+                                                <div class="overflow-h">Mined By <a href='/address/<%=block.header.coinbase%>'
+                                                        class='address-tag'><%=block.header.coinbase%></a></p>
+                                                    <p><a href="/txs?block=<%=block.header.number%>" title="Transactions in This Block"><b><%=block.data.length%>
+                                                                txns</b></a> in 16 secs</p>
+                                                    <p> Block Reward 3<b>.</b>0793 Ether</p>
+                                                </div>
+                                            </div>
+                                        <%})%>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="panel panel-profile no-bg">
+                                    <div class="panel-heading overflow-h">
+                                        <h2 class="panel-title heading-sm pull-left"><i class="fa fa-list-alt" id="faalt"></i>Transactions</h2>
+                                        <span style="color: #999999; font-size: 11px; margin-bottom: -20px; padding-bottom: 0px;"></span>
+                                        <a href="txs" class="btn-u btn-brd btn-brd-hover btn-u-dark btn-u-xs pull-right">View
+                                            All</a>
+                                    </div>
+                                    <div id="scrollbar" class="panel-body no-padding mCustomScrollbar" data-mcs-theme="minimal-dark"
+                                        style="height: 580px">
+                                        <%
+                                            blocks.forEach(block => {
+                                                block.data.forEach(transaction => {
+                                        %>
+                                                <div class="profile-post color-one"><span class="profile-post-numb"><i class="fa fa-hdd-o"></i></span>
+                                                    <div class="profile-post-in">
+                                                        <h3 class="heading-xs">TX# <a href="/tx/<%=transaction.hash%>"
+                                                                class='hash-tag-frontpage' title="Transactions Hash">
+                                                                <font color='#3498db'><%=transaction.hash%></font>
+                                                            </a><span class="pull-right" style="font-size: small">
+                                                                <div data-countdown='41000'></div>&nbsp;
+                                                            </span></h3>
+                                                        <p>From <a href='/address/<%=transaction.from%>'
+                                                                class='address-tag'><%=transaction.from%></a>
+                                                            To <a href='/address/<%=transaction.to%>'
+                                                                class='address-tag'><%=transaction.to%></a></p>
+                                                        <p>Amount <%=transaction.value%> Ether</p>
+                                                    </div>
+                                                </div>
+                                            <%})%>
+                                        <%})%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="ContentPlaceHolder1_lblDefConModeContent"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/jquery.countdown.min.js"></script>
+        <script>
+            var lang_mined_by = "Mined By";
+            var lang_block = "Block";
+            var lang_block_reward = "Block Reward";
+            var lang_sec = "sec";
+            var lang_secs = "secs";
+            var lang_min = "min";
+            var lang_from = "From";
+            var lang_to = "To";
+            var lang_amount = "Amount";
+            var lang_tx = "TX";
+            var lang_ether = "Ether";
+            var lang_txns = "Txns";
+            var lang_in_X = "in";
+            var lang_ago = "ago";
+        </script>
+        <script src="/jss/default.js?v=0.084"></script>
+        <div id="push"></div>
+
+    </div>
+    <div id="divcookie" class="navbar navbar-default navbar-fixed-bottom" style="display:none; background-color:#A6ACAF; opacity: 0.95; justify-content:space-between; align-items: center; flex-wrap:nowrap">
+        <div class="container">
+            <p class="navbar-text pull-left" style="color:white">This Website <a href="https://etherscan.io/terms#cookiestatement"
+                    target="_blank">
+                    <font color='#3392FF'><b>uses cookies to improve your experience</b></font>
+                </a> And has an updated
+                <a href="/privacyPolicy">
+                    <font color='#3392FF'><b>Privacy Policy</b></font>
+                </a>.
+            </p>
+        </div>
+        <div class="container"><button id='btnCookie' style="border-color: rgb(0, 0, 0); border-width:1px" class="pull-right">Got
+                It</button></div>
+    </div>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/combine-js-bottom.js"></script>
+    <script type="text/javascript">
+        var cookieconsent = getCookie("etherscan_cookieconsent");
+        if (cookieconsent != "True") {
+            document.getElementById("divcookie").style.display = "flex";
+        };
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        $("#btnCookie").click(function () {
+            $("#divcookie").fadeOut("slow", function () {
+                var d = new Date();
+                d.setTime(d.getTime() + (1095 * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = "etherscan_cookieconsent=True" + ";" + expires + ";path=/";;
+            });
+        });
+    </script>
+    <link rel="Stylesheet" href="css/jquery-ui.min.css" type="text/css" />
+</body>
+
+</html>
