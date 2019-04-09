@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "NODE_ENV=DEVELOPMENT nodemon app.js",
     "start": "NODE_ENV=PRODUCTION node app.js",
+    "start1": "HTTP_PORT=8000 P2P_PORT=8088 node app.js",
+    "start2": "HTTP_PORT=6969 P2P_PORT=8089 node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "anlancan96",
